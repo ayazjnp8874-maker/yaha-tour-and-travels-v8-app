@@ -26,19 +26,23 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - name: Build debug APK
+      - name: Build clean debug APK
         working-directory: android
-        run: gradle assembleDebug
-      - name: Verify APK signature and package
+        run: gradle --no-build-cache --rerun-tasks clean assembleDebug
+      - name: Verify APK alignment, signature and package
         working-directory: android
         run: |
           APK=app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
           ls -lh "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/zipalign" -c -v 4 "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK"
+          sha256sum "$APK"
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: YAHA-TOUR-AND-TRAVELS-V8-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          retention-days: 30
