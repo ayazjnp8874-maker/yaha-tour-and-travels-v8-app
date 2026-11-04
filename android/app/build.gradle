@@ -10,8 +10,8 @@ android {
         applicationId 'com.yahatourandtravels.v8'
         minSdk 21
         targetSdk 29
-        versionCode 10
-        versionName '8.2'
+        versionCode 11
+        versionName '8.3'
     }
 
     buildTypes {
