@@ -7,7 +7,7 @@ android {
     compileSdk 35
 
     defaultConfig {
-        applicationId 'com.yahatourandtravels.app'
+        applicationId 'com.yahatourandtravels.v8'
         minSdk 23
         targetSdk 28
         versionCode 8
