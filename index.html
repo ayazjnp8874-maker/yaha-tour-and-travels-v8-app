@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YAHA TOUR AND TRAVELS</title>
+<style>
+body{margin:0;font-family:Arial;background:#111;color:white}
+header{background:#ffc928;color:#111;padding:22px;text-align:center}
+h1{font-size:25px}
+main{padding:18px;max-width:600px;margin:auto}
+.box{background:#222;padding:18px;border-radius:14px;margin:15px 0}
+input,select,button{width:100%;padding:13px;margin:7px 0;border-radius:7px;border:0;box-sizing:border-box}
+button{background:#ffc928;font-weight:bold;font-size:16px}
+h2{color:#ffc928}
+</style>
+</head>
+<body>
+<header>
+<h1>YAHA TOUR AND TRAVELS</h1>
+<p>Your Journey, Our Responsibility</p>
+</header>
+<main>
+<div class="box">
+<h2>Customer Booking</h2>
+<form id="booking">
+<input id="name" placeholder="Customer Name" required>
+<input id="phone" placeholder="Mobile Number" maxlength="10" required>
+<select id="vehicle">
+<option>Dzire</option>
+<option>Ertiga</option>
+<option>Bike</option>
+</select>
+<input id="pickup" placeholder="Pickup Location" required>
+<input id="drop" placeholder="Drop Location" required>
+<input id="date" type="date" required>
+<button type="submit">BOOK NOW</button>
+</form>
+</div>
+<div class="box">
+<h2>Driver Dashboard</h2>
+<p>Driver booking details will appear here.</p>
+</div>
+<div class="box">
+<h2>Admin Dashboard</h2>
+<p>Admin booking management will appear here.</p>
+</div>
+<div class="box">
+<h2>Contact</h2>
+<p>WhatsApp: 8874547741</p>
+</div>
+</main>
+<script>
+document.getElementById("booking").onsubmit=function(e){
+e.preventDefault();
+let b=JSON.parse(localStorage.getItem("yahaBookings")||"[]");
+b.push({
+name:name.value,
+phone:phone.value,
+vehicle:vehicle.value,
+pickup:pickup.value,
+drop:drop.value,
+date:date.value
+});
+localStorage.setItem("yahaBookings",JSON.stringify(b));
+alert("Booking Saved Successfully!");
+this.reset();
+};
+</script>
+</body>
+</html>
