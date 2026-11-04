@@ -1,0 +1,18 @@
+{
+  "name": "YAHA TOUR AND TRAVELS",
+  "short_name": "YAHA Travels",
+  "description": "Car and bike booking app for YAHA TOUR AND TRAVELS",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101114",
+  "theme_color": "#ffc928",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
