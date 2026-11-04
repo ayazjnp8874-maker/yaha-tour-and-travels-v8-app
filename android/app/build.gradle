@@ -1,0 +1,16 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.yahatourandtravels.app'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.yahatourandtravels.app'
+        minSdk 23
+        targetSdk 28
+        versionCode 8
+        versionName '8.0'
+    }
+}
