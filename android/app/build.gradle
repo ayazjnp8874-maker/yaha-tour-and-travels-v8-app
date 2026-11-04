@@ -8,9 +8,15 @@ android {
 
     defaultConfig {
         applicationId 'com.yahatourandtravels.v8'
-        minSdk 23
-        targetSdk 28
-        versionCode 8
-        versionName '8.0'
+        minSdk 21
+        targetSdk 29
+        versionCode 9
+        versionName '8.1'
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+        }
     }
 }
