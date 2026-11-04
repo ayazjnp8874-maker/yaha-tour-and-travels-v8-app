@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function myProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    function isAdmin() {
+      return signedIn() && myProfile().role == 'admin' && myProfile().active == true;
+    }
+    function isDriver() {
+      return signedIn() && myProfile().role == 'driver' && myProfile().active == true;
+    }
+    match /users/{uid} {
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.role == 'customer'
+        && request.resource.data.active == true;
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+    match /bookings/{bookingId} {
+      allow create: if signedIn()
+        && request.resource.data.customerUid == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow read: if signedIn() && (
+        isAdmin()
+        || resource.data.customerUid == request.auth.uid
+        || (isDriver() && resource.data.driverUid == request.auth.uid)
+      );
+      allow update: if signedIn() && (
+        isAdmin()
+        || (
+          resource.data.customerUid == request.auth.uid
+          && resource.data.status == 'pending'
+          && request.resource.data.status == 'cancelled'
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+        )
+        || (
+          isDriver()
+          && resource.data.driverUid == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+          && request.resource.data.status in ['accepted','rejected','started','completed']
+        )
+      );
+      allow delete: if isAdmin();
+    }
+    match /vehicles/{vehicleId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+    match /settings/{settingId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
