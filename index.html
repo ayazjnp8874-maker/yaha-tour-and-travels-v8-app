@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffc928">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
 <title>YAHA TOUR AND TRAVELS | V8</title>
 <style>
 :root{--y:#ffc928;--bg:#101114;--panel:#1c1e23;--muted:#aeb3bd;--line:#343840;--green:#39c786;--red:#ff6565}
@@ -146,5 +148,6 @@ window.toggleVehicle=async(id,active)=>{try{await updateDoc(doc(db,"vehicles",id
 $("vehicleForm").onsubmit=async e=>{e.preventDefault();try{await addDoc(collection(db,"vehicles"),{type:$("newVehicleType").value,model:$("newVehicleModel").value.trim(),ownership:$("newOwnership").value,registration:$("newReg").value.trim(),driverUid:$("newDriverUid").value.trim(),ratePerKm:Number($("newRate").value),active:true,createdAt:serverTimestamp()});$("vehicleForm").reset();alert("Vehicle added.")}catch(err){alert(friendly(err))}};
 $("saveRates").onclick=async()=>{try{rates={Dzire:Number($("rateDzire").value),Ertiga:Number($("rateErtiga").value),Bike:Number($("rateBike").value)};await setDoc(doc(db,"settings","fares"),rates);alert("Fare settings saved.")}catch(e){alert(friendly(e))}};
 </script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(err=>console.warn("App install support:",err)));}</script>
 </body>
 </html>
